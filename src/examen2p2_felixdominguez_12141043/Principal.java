@@ -10,6 +10,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import java.lang.Exception;
 
 /**
  *
@@ -21,6 +22,9 @@ public class Principal extends javax.swing.JFrame {
     DefaultMutableTreeNode nodo_select;
     Planeta planeta_select;
     DefaultComboBoxModel<String> comboboxC=new DefaultComboBoxModel();
+    Planeta p1;
+    Planeta p2;
+    HiloColision hilo;
 
     /**
      * Creates new form Principal
@@ -155,6 +159,11 @@ public class Principal extends javax.swing.JFrame {
         });
 
         BotonColisionar.setText("Colisionar");
+        BotonColisionar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                BotonColisionarMouseClicked(evt);
+            }
+        });
         BotonColisionar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BotonColisionarActionPerformed(evt);
@@ -231,6 +240,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void BotonColisionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonColisionarActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_BotonColisionarActionPerformed
 
     private void BotonCientificoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCientificoActionPerformed
@@ -246,6 +256,46 @@ public class Principal extends javax.swing.JFrame {
 
     private void PublicoCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PublicoCheckActionPerformed
         // TODO add your handling code here:
+        if(PublicoCheck.isSelected()){
+            javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Planetas");
+            Arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+            
+            DefaultTreeModel modelo=(DefaultTreeModel) Arbol.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+
+            DefaultMutableTreeNode n1 = new DefaultMutableTreeNode(((Terrestre)planetas.get(0)));
+            DefaultMutableTreeNode n2 = new DefaultMutableTreeNode(((Terrestre)planetas.get(1)));
+            DefaultMutableTreeNode n3 = new DefaultMutableTreeNode(((Terrestre)planetas.get(2)));
+            DefaultMutableTreeNode n4 = new DefaultMutableTreeNode(((Terrestre)planetas.get(3)));
+            DefaultMutableTreeNode n5 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(4)));
+            DefaultMutableTreeNode n6 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(5)));
+            DefaultMutableTreeNode n7 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(6)));
+            DefaultMutableTreeNode n8 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(7)));
+
+            raiz.add(n1);
+            raiz.add(n2);
+            raiz.add(n3);
+            raiz.add(n4);
+            raiz.add(n5);
+            raiz.add(n6);
+            raiz.add(n7);
+            raiz.add(n8);
+
+            modelo.reload();
+        }else{
+            javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Planetas");
+            Arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+            
+            DefaultTreeModel modelo=(DefaultTreeModel) Arbol.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            
+            for(int i=0;i<cientificos.get(CientificosCombobox.getSelectedIndex()).getPlanetas().size();i++){
+                DefaultMutableTreeNode n1 = new DefaultMutableTreeNode((cientificos.get(CientificosCombobox.getSelectedIndex()).getPlanetas().get(i)));
+                raiz.add(n1);
+            }
+            
+            modelo.reload();
+        }
     }//GEN-LAST:event_PublicoCheckActionPerformed
 
     private void CientificosComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CientificosComboboxActionPerformed
@@ -273,13 +323,35 @@ public class Principal extends javax.swing.JFrame {
     private void OpcionPlaneta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpcionPlaneta1ActionPerformed
         // TODO add your handling code here:
         TextoPlaneta1.setText(nodo_select.toString());
+        p1=planeta_select;
     }//GEN-LAST:event_OpcionPlaneta1ActionPerformed
 
     private void OpcionPlaneta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpcionPlaneta2ActionPerformed
         // TODO add your handling code here:
         TextoPlaneta2.setText(nodo_select.toString());
+        p2=planeta_select;
     }//GEN-LAST:event_OpcionPlaneta2ActionPerformed
 
+    private void BotonColisionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BotonColisionarMouseClicked
+        // TODO add your handling code here:
+        try{
+            hilo=new HiloColision(ProcesoProgress);
+            ProcesoProgress.setValue(0);
+            int proba=p1.probabilidad();
+            hilo.setP1(proba);
+            hilo.start();
+            
+            if(proba==2){
+                
+            }else {
+                
+            }
+        }catch(Exception e){
+        
+        }
+    }//GEN-LAST:event_BotonColisionarMouseClicked
+
+    public void 
     public void refresh(){
         comboboxC.removeAllElements();
         for(int i=0;i<cientificos.size();i++){
