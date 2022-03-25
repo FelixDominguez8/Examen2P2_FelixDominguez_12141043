@@ -6,14 +6,22 @@
 package examen2p2_felixdominguez_12141043;
 
 import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  *
  * @author Lenovo I7
  */
-public class Cientifico {
+public class Cientifico implements Serializable{
     private String nombre;
     private ArrayList<Planeta> planetas=new ArrayList();
+
+    public Cientifico() {
+    }
+
+    public Cientifico(String nombre) {
+        this.nombre = nombre;
+    }
 
     public Cientifico(String nombre, ArrayList<Planeta> planetas) {
         this.nombre = nombre;

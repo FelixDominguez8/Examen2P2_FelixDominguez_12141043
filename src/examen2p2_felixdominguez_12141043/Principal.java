@@ -5,17 +5,65 @@
  */
 package examen2p2_felixdominguez_12141043;
 
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+
 /**
  *
  * @author Lenovo I7
  */
 public class Principal extends javax.swing.JFrame {
+    ArrayList<Planeta> planetas=new ArrayList();
+    ArrayList<Cientifico> cientificos=new ArrayList();
+    DefaultMutableTreeNode nodo_select;
+    Planeta planeta_select;
+    DefaultComboBoxModel<String> comboboxC=new DefaultComboBoxModel();
 
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
+        
+        planetas.add(new Terrestre(5000,13000,"Mercurio",400,300));
+        planetas.add(new Terrestre(100000,15000,"Venus",640,260));
+        planetas.add(new Terrestre(140000,17000,"Tierra",760,570));
+        planetas.add(new Terrestre(90000,12000,"Marte",360,360));
+        planetas.add(new Gaseoso(400000,40000,"Jupiter",340,310));
+        planetas.add(new Gaseoso(300000,30000,"Saturno",560,450));
+        planetas.add(new Gaseoso(200000,20000,"Urano",670,690));
+        planetas.add(new Gaseoso(200000,20000,"Neptuno",840,900));
+        
+        DefaultTreeModel modelo=(DefaultTreeModel) Arbol.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+        
+        DefaultMutableTreeNode n1 = new DefaultMutableTreeNode(((Terrestre)planetas.get(0)));
+        DefaultMutableTreeNode n2 = new DefaultMutableTreeNode(((Terrestre)planetas.get(1)));
+        DefaultMutableTreeNode n3 = new DefaultMutableTreeNode(((Terrestre)planetas.get(2)));
+        DefaultMutableTreeNode n4 = new DefaultMutableTreeNode(((Terrestre)planetas.get(3)));
+        DefaultMutableTreeNode n5 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(4)));
+        DefaultMutableTreeNode n6 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(5)));
+        DefaultMutableTreeNode n7 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(6)));
+        DefaultMutableTreeNode n8 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(7)));
+        
+        raiz.add(n1);
+        raiz.add(n2);
+        raiz.add(n3);
+        raiz.add(n4);
+        raiz.add(n5);
+        raiz.add(n6);
+        raiz.add(n7);
+        raiz.add(n8);
+        
+        modelo.reload();
+        
+        AdminCientifico ac = new AdminCientifico("./cientifico.cbm");
+        ac.cargarArchivo();
+        cientificos=ac.getListaCientificos();
+        refresh();
     }
 
     /**
@@ -27,6 +75,10 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PopUp = new javax.swing.JPopupMenu();
+        OpcionPlaneta1 = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        OpcionPlaneta2 = new javax.swing.JMenuItem();
         ProcesoProgress = new javax.swing.JProgressBar();
         EnergiaProgress = new javax.swing.JProgressBar();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -41,21 +93,73 @@ public class Principal extends javax.swing.JFrame {
         BotonCientifico = new javax.swing.JButton();
         BotonColisionar = new javax.swing.JButton();
 
+        OpcionPlaneta1.setText("Planeta 1");
+        OpcionPlaneta1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpcionPlaneta1ActionPerformed(evt);
+            }
+        });
+        PopUp.add(OpcionPlaneta1);
+        PopUp.add(jSeparator1);
+
+        OpcionPlaneta2.setText("Planeta 2");
+        OpcionPlaneta2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpcionPlaneta2ActionPerformed(evt);
+            }
+        });
+        PopUp.add(OpcionPlaneta2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Planetas");
         Arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        Arbol.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ArbolMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(Arbol);
 
         PublicoCheck.setText("Publicos");
+        PublicoCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PublicoCheckActionPerformed(evt);
+            }
+        });
+
+        TextoPlaneta1.setEnabled(false);
+
+        TextoPlaneta2.setEnabled(false);
 
         jLabel1.setText("Cientificos:");
+
+        CientificosCombobox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                CientificosComboboxItemStateChanged(evt);
+            }
+        });
+        CientificosCombobox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CientificosComboboxActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Nombre:");
 
         BotonCientifico.setText("Añadir");
+        BotonCientifico.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonCientificoActionPerformed(evt);
+            }
+        });
 
         BotonColisionar.setText("Colisionar");
+        BotonColisionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonColisionarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,25 +167,31 @@ public class Principal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(ProcesoProgress, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
-                        .addComponent(EnergiaProgress, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(ProcesoProgress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(EnergiaProgress, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(PublicoCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(28, 28, 28)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(TextoPlaneta1)
-                            .addComponent(TextoPlaneta2)
-                            .addComponent(jLabel1)
-                            .addComponent(CientificosCombobox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2)
-                            .addComponent(NombreCientificos)
-                            .addComponent(BotonCientifico, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(BotonColisionar, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(PublicoCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 28, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(CientificosCombobox, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2)
+                                    .addComponent(NombreCientificos, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(BotonCientifico, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(89, 89, 89))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(TextoPlaneta1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(TextoPlaneta2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(BotonColisionar)))))
                 .addContainerGap(21, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -98,7 +208,7 @@ public class Principal extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(TextoPlaneta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                                 .addComponent(TextoPlaneta2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(BotonColisionar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(36, 36, 36)
@@ -110,15 +220,74 @@ public class Principal extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(NombreCientificos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(PublicoCheck)
-                    .addComponent(BotonCientifico))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(BotonCientifico)
+                    .addComponent(PublicoCheck))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void BotonColisionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonColisionarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_BotonColisionarActionPerformed
+
+    private void BotonCientificoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonCientificoActionPerformed
+        // TODO add your handling code here:
+        cientificos.add(new Cientifico(NombreCientificos.getText()));
+        refresh();
+        JOptionPane.showMessageDialog(null, "Se a agregado al nuevo Cientifico exitosamente");
+        AdminCientifico ac = new AdminCientifico("./cientifico.cbm");
+        ac.cargarArchivo();
+        ac.setCientifico(cientificos.get(cientificos.size()-1));
+        ac.escribirArchivo();
+    }//GEN-LAST:event_BotonCientificoActionPerformed
+
+    private void PublicoCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PublicoCheckActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PublicoCheckActionPerformed
+
+    private void CientificosComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CientificosComboboxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CientificosComboboxActionPerformed
+
+    private void CientificosComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CientificosComboboxItemStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CientificosComboboxItemStateChanged
+
+    private void ArbolMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ArbolMouseClicked
+        // TODO add your handling code here:
+        if(evt.isMetaDown()){
+            int row = Arbol.getClosestRowForLocation(evt.getX(),evt.getY());
+            Arbol.setSelectionRow(row);
+            Object a=Arbol.getSelectionPath().getLastPathComponent();
+            nodo_select = (DefaultMutableTreeNode) a;
+            if(nodo_select.getUserObject() instanceof Planeta){
+                planeta_select= (Planeta) nodo_select.getUserObject();
+                PopUp.show(evt.getComponent(), evt.getX(), evt.getY());
+            }
+        }
+    }//GEN-LAST:event_ArbolMouseClicked
+
+    private void OpcionPlaneta1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpcionPlaneta1ActionPerformed
+        // TODO add your handling code here:
+        TextoPlaneta1.setText(nodo_select.toString());
+    }//GEN-LAST:event_OpcionPlaneta1ActionPerformed
+
+    private void OpcionPlaneta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpcionPlaneta2ActionPerformed
+        // TODO add your handling code here:
+        TextoPlaneta2.setText(nodo_select.toString());
+    }//GEN-LAST:event_OpcionPlaneta2ActionPerformed
+
+    public void refresh(){
+        comboboxC.removeAllElements();
+        for(int i=0;i<cientificos.size();i++){
+            comboboxC.addElement(cientificos.get(i).getNombre());
+        }
+        CientificosCombobox.setModel(comboboxC);
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -161,6 +330,9 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> CientificosCombobox;
     private javax.swing.JProgressBar EnergiaProgress;
     private javax.swing.JTextField NombreCientificos;
+    private javax.swing.JMenuItem OpcionPlaneta1;
+    private javax.swing.JMenuItem OpcionPlaneta2;
+    private javax.swing.JPopupMenu PopUp;
     private javax.swing.JProgressBar ProcesoProgress;
     private javax.swing.JCheckBox PublicoCheck;
     private javax.swing.JTextField TextoPlaneta1;
@@ -168,5 +340,6 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
 }

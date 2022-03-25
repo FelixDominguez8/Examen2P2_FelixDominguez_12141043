@@ -5,11 +5,13 @@
  */
 package examen2p2_felixdominguez_12141043;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Lenovo I7
  */
-public class Planeta {
+public class Planeta implements Serializable{
     private int tamanio;
     private int peso;
     private String nombre;
@@ -73,7 +75,7 @@ public class Planeta {
 
     @Override
     public String toString() {
-        return "Planeta{" + "tamanio=" + tamanio + ", peso=" + peso + ", nombre=" + nombre + ", x=" + x + ", y=" + y + '}';
+        return nombre;
     }
     
 }
