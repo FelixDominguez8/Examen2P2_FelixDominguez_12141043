@@ -15,6 +15,10 @@ public class Terrestre extends Planeta{
     public Terrestre() {
     }
 
+    public Terrestre(String nombre) {
+        super(nombre);
+    }
+
     public Terrestre(int tamanio, int peso, String nombre, int x, int y) {
         super(tamanio, peso, nombre, x, y);
     }

@@ -68,6 +68,10 @@ public class Principal extends javax.swing.JFrame {
         ac.cargarArchivo();
         cientificos=ac.getListaCientificos();
         refresh();
+        
+        hilo=new HiloColision(ProcesoProgress);
+        
+        PublicoCheck.setSelected(true);
     }
 
     /**
@@ -296,10 +300,12 @@ public class Principal extends javax.swing.JFrame {
             
             modelo.reload();
         }
+        
     }//GEN-LAST:event_PublicoCheckActionPerformed
 
     private void CientificosComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CientificosComboboxActionPerformed
         // TODO add your handling code here:
+        PublicoCheck.setSelected(true);
     }//GEN-LAST:event_CientificosComboboxActionPerformed
 
     private void CientificosComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CientificosComboboxItemStateChanged
@@ -324,6 +330,7 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         TextoPlaneta1.setText(nodo_select.toString());
         p1=planeta_select;
+        
     }//GEN-LAST:event_OpcionPlaneta1ActionPerformed
 
     private void OpcionPlaneta2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpcionPlaneta2ActionPerformed
@@ -340,8 +347,17 @@ public class Principal extends javax.swing.JFrame {
             int proba=p1.probabilidad();
             hilo.setP1(proba);
             hilo.start();
-            
-            if(proba==2){
+            /*while(ProcesoProgress.getValue()<ProcesoProgress.getMaximum()){
+                
+            }*/
+            if(p1.probabilidad()==2){
+                JOptionPane.showMessageDialog(null,"Se ha creado un nuevo planeta durante la colision");
+                String st=JOptionPane.showInputDialog(null, "Ingrese el nombre del nuevo planeta");
+                if(p1 instanceof Terrestre){
+                    cientificos.get(CientificosCombobox.getSelectedIndex()).getPlanetas().add(new Terrestre(st));
+                }else{
+                    cientificos.get(CientificosCombobox.getSelectedIndex()).getPlanetas().add(new Gaseoso(st));
+                }
                 
             }else {
                 
@@ -351,7 +367,13 @@ public class Principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BotonColisionarMouseClicked
 
-    public void 
+    public void hilos(){
+        if(hilo.getP1()==2){
+            System.out.println("Foca");
+        }else{
+             System.out.println("Focassssssssss");
+        }
+    }
     public void refresh(){
         comboboxC.removeAllElements();
         for(int i=0;i<cientificos.size();i++){

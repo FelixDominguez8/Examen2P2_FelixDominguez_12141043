@@ -49,11 +49,6 @@ public class HiloColision extends Thread{
 
             }
         }
-        if(p1==2){
-            JOptionPane.showMessageDialog(null,"Se ha creado un nuevo planeta durante la colision");
-        }else {
-            JOptionPane.showMessageDialog(null, "Foca voladora");
-        }
-        Principal a;
+        
     }
 }

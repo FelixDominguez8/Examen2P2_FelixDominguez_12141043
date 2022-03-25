@@ -21,6 +21,12 @@ public class Planeta implements Serializable{
     public Planeta() {
     }
 
+    public Planeta(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    
+
     public Planeta(int tamanio, int peso, String nombre, int x, int y) {
         this.tamanio = tamanio;
         this.peso = peso;

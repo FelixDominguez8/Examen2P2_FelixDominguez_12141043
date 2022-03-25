@@ -16,6 +16,10 @@ public class Gaseoso extends Planeta{
     public Gaseoso() {
     }
 
+    public Gaseoso(String nombre) {
+        super(nombre);
+    }
+
     public Gaseoso(int tamanio, int peso, String nombre, int x, int y) {
         super(tamanio, peso, nombre, x, y);
     }
