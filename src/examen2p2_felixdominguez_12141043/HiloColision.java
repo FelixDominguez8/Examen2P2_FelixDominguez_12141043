@@ -42,12 +42,13 @@ public class HiloColision extends Thread{
     @Override
     public void run() {
         while(progreso.getValue()<progreso.getMaximum()){
-            progreso.setValue(progreso.getValue()+5);  
+            progreso.setValue(progreso.getValue()+40);  
             try {
                 Thread.sleep(100);
             } catch (InterruptedException ex) {
 
             }
+            
         }
         
     }

@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import java.lang.Exception;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -87,6 +88,9 @@ public class Principal extends javax.swing.JFrame {
         OpcionPlaneta1 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         OpcionPlaneta2 = new javax.swing.JMenuItem();
+        Confirmacion = new javax.swing.JDialog();
+        jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         ProcesoProgress = new javax.swing.JProgressBar();
         EnergiaProgress = new javax.swing.JProgressBar();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -117,6 +121,34 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         PopUp.add(OpcionPlaneta2);
+
+        jLabel3.setText("Se ha completado la simulacion");
+
+        jButton1.setText("OK");
+
+        javax.swing.GroupLayout ConfirmacionLayout = new javax.swing.GroupLayout(Confirmacion.getContentPane());
+        Confirmacion.getContentPane().setLayout(ConfirmacionLayout);
+        ConfirmacionLayout.setHorizontalGroup(
+            ConfirmacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ConfirmacionLayout.createSequentialGroup()
+                .addGroup(ConfirmacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(ConfirmacionLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel3))
+                    .addGroup(ConfirmacionLayout.createSequentialGroup()
+                        .addGap(67, 67, 67)
+                        .addComponent(jButton1)))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+        ConfirmacionLayout.setVerticalGroup(
+            ConfirmacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ConfirmacionLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel3)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -342,21 +374,35 @@ public class Principal extends javax.swing.JFrame {
     private void BotonColisionarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BotonColisionarMouseClicked
         // TODO add your handling code here:
         try{
+            int x1=(p2.getX()-p1.getX());
+            int y1=(p2.getY()-p1.getY());
+            int ra1=(int)Math.pow(x1, 2);
+            int ra2=(int)Math.pow(y1, 2);
+            int su=ra1+ra2;
+            int ra=(int)Math.sqrt(su);
+            
+            System.out.println(x1+" "+y1+" "+ra1+" "+ra2+" "+su+" "+ra);
+            ProcesoProgress.setMaximum(x1);
             hilo=new HiloColision(ProcesoProgress);
             ProcesoProgress.setValue(0);
             int proba=p1.probabilidad();
             hilo.setP1(proba);
+            JProgressBar pros=hilo.getProgreso();
             hilo.start();
-            /*while(ProcesoProgress.getValue()<ProcesoProgress.getMaximum()){
-                
-            }*/
+            while(hilo.isAlive()){
+                //ProcesoProgress.setValue(hilo.getProgreso().getValue());
+            }
             if(p1.probabilidad()==2){
                 JOptionPane.showMessageDialog(null,"Se ha creado un nuevo planeta durante la colision");
                 String st=JOptionPane.showInputDialog(null, "Ingrese el nombre del nuevo planeta");
+                int tam=(p1.getTamanio()+p2.getTamanio())/2;
+                int peso=(p1.getPeso()+p2.getPeso())/2;
+                int x=(p1.getX()+p2.getX())/2;
+                int y=(p1.getY()+p2.getY())/2;
                 if(p1 instanceof Terrestre){
-                    cientificos.get(CientificosCombobox.getSelectedIndex()).getPlanetas().add(new Terrestre(st));
+                    cientificos.get(CientificosCombobox.getSelectedIndex()).getPlanetas().add(new Terrestre(tam,peso,st,x,y));
                 }else{
-                    cientificos.get(CientificosCombobox.getSelectedIndex()).getPlanetas().add(new Gaseoso(st));
+                    cientificos.get(CientificosCombobox.getSelectedIndex()).getPlanetas().add(new Gaseoso(tam,peso,st,x,y));
                 }
                 
             }else {
@@ -422,6 +468,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton BotonCientifico;
     private javax.swing.JButton BotonColisionar;
     private javax.swing.JComboBox<String> CientificosCombobox;
+    private javax.swing.JDialog Confirmacion;
     private javax.swing.JProgressBar EnergiaProgress;
     private javax.swing.JTextField NombreCientificos;
     private javax.swing.JMenuItem OpcionPlaneta1;
@@ -431,8 +478,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JCheckBox PublicoCheck;
     private javax.swing.JTextField TextoPlaneta1;
     private javax.swing.JTextField TextoPlaneta2;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     // End of variables declaration//GEN-END:variables
