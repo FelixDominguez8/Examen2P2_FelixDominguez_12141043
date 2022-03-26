@@ -26,6 +26,7 @@ public class Principal extends javax.swing.JFrame {
     Planeta p1;
     Planeta p2;
     HiloColision hilo;
+    double dis;
 
     /**
      * Creates new form Principal
@@ -151,6 +152,12 @@ public class Principal extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        ProcesoProgress.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ProcesoProgressStateChanged(evt);
+            }
+        });
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Planetas");
         Arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -337,7 +344,46 @@ public class Principal extends javax.swing.JFrame {
 
     private void CientificosComboboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CientificosComboboxActionPerformed
         // TODO add your handling code here:
-        PublicoCheck.setSelected(true);
+        if(PublicoCheck.isSelected()){
+            javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Planetas");
+            Arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+            
+            DefaultTreeModel modelo=(DefaultTreeModel) Arbol.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+
+            DefaultMutableTreeNode n1 = new DefaultMutableTreeNode(((Terrestre)planetas.get(0)));
+            DefaultMutableTreeNode n2 = new DefaultMutableTreeNode(((Terrestre)planetas.get(1)));
+            DefaultMutableTreeNode n3 = new DefaultMutableTreeNode(((Terrestre)planetas.get(2)));
+            DefaultMutableTreeNode n4 = new DefaultMutableTreeNode(((Terrestre)planetas.get(3)));
+            DefaultMutableTreeNode n5 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(4)));
+            DefaultMutableTreeNode n6 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(5)));
+            DefaultMutableTreeNode n7 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(6)));
+            DefaultMutableTreeNode n8 = new DefaultMutableTreeNode(((Gaseoso)planetas.get(7)));
+
+            raiz.add(n1);
+            raiz.add(n2);
+            raiz.add(n3);
+            raiz.add(n4);
+            raiz.add(n5);
+            raiz.add(n6);
+            raiz.add(n7);
+            raiz.add(n8);
+
+            modelo.reload();
+        }else{
+            javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Planetas");
+            Arbol.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+            
+            DefaultTreeModel modelo=(DefaultTreeModel) Arbol.getModel();
+            DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) modelo.getRoot();
+            
+            for(int i=0;i<cientificos.get(CientificosCombobox.getSelectedIndex()).getPlanetas().size();i++){
+                DefaultMutableTreeNode n1 = new DefaultMutableTreeNode((cientificos.get(CientificosCombobox.getSelectedIndex()).getPlanetas().get(i)));
+                raiz.add(n1);
+            }
+            
+            modelo.reload();
+        }
     }//GEN-LAST:event_CientificosComboboxActionPerformed
 
     private void CientificosComboboxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_CientificosComboboxItemStateChanged
@@ -380,18 +426,23 @@ public class Principal extends javax.swing.JFrame {
             int ra2=(int)Math.pow(y1, 2);
             int su=ra1+ra2;
             int ra=(int)Math.sqrt(su);
-            
-            System.out.println(x1+" "+y1+" "+ra1+" "+ra2+" "+su+" "+ra);
-            ProcesoProgress.setMaximum(x1);
+            dis=ra;
+            ProcesoProgress.setMaximum(ra);
             hilo=new HiloColision(ProcesoProgress);
             ProcesoProgress.setValue(0);
             int proba=p1.probabilidad();
             hilo.setP1(proba);
             JProgressBar pros=hilo.getProgreso();
             hilo.start();
-            while(hilo.isAlive()){
-                //ProcesoProgress.setValue(hilo.getProgreso().getValue());
-            }
+            
+        }catch(Exception e){
+        
+        }
+    }//GEN-LAST:event_BotonColisionarMouseClicked
+
+    private void ProcesoProgressStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ProcesoProgressStateChanged
+        // TODO add your handling code here:
+        if(ProcesoProgress.getValue()==ProcesoProgress.getMaximum()){
             if(p1.probabilidad()==2){
                 JOptionPane.showMessageDialog(null,"Se ha creado un nuevo planeta durante la colision");
                 String st=JOptionPane.showInputDialog(null, "Ingrese el nombre del nuevo planeta");
@@ -406,20 +457,18 @@ public class Principal extends javax.swing.JFrame {
                 }
                 
             }else {
-                
             }
-        }catch(Exception e){
-        
         }
-    }//GEN-LAST:event_BotonColisionarMouseClicked
+    }//GEN-LAST:event_ProcesoProgressStateChanged
 
     public void hilos(){
         if(hilo.getP1()==2){
-            System.out.println("Foca");
+            
         }else{
-             System.out.println("Focassssssssss");
+            
         }
     }
+    
     public void refresh(){
         comboboxC.removeAllElements();
         for(int i=0;i<cientificos.size();i++){

@@ -5,6 +5,7 @@
  */
 package examen2p2_felixdominguez_12141043;
 
+import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
@@ -15,6 +16,7 @@ import javax.swing.JProgressBar;
 public class HiloColision extends Thread{
     private JProgressBar progreso;
     private int p1;
+    private int tiempo;
 
     public HiloColision() {
     }
@@ -38,18 +40,31 @@ public class HiloColision extends Thread{
     public void setP1(int p1) {
         this.p1 = p1;
     }
+
+    public int getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(int tiempo) {
+        this.tiempo = tiempo;
+    }
+    
+    
     
     @Override
     public void run() {
+        int tiempo=0;
         while(progreso.getValue()<progreso.getMaximum()){
-            progreso.setValue(progreso.getValue()+40);  
+            progreso.setValue(progreso.getValue()+1);  
+            tiempo=tiempo+5;
             try {
-                Thread.sleep(100);
+                Thread.sleep(5);
             } catch (InterruptedException ex) {
 
             }
             
         }
-        
+        setTiempo(tiempo);
+        System.out.println("Tiempo de colicion en milisegundos: "+tiempo);
     }
 }
